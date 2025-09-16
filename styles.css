@@ -77,3 +77,33 @@ button:hover {
 .required {
     color: #e53e3e;
 }
+
+/* Estilos para campos de producto personalizado */
+.custom-product-fields {
+    background-color: #f8f9fa;
+    border: 2px dashed #dee2e6;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 15px 0;
+    transition: all 0.3s ease;
+}
+
+.custom-product-fields .form-group {
+    margin-bottom: 15px;
+}
+
+.custom-product-fields label {
+    font-size: 14px;
+    color: #495057;
+}
+
+.custom-product-fields input,
+.custom-product-fields select,
+.custom-product-fields textarea {
+    background-color: white;
+    border: 1px solid #ced4da;
+}
+
+.custom-product-fields textarea {
+    min-height: 80px;
+}

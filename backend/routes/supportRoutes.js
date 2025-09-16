@@ -1,25 +1,63 @@
 const express = require('express');
 const router = express.Router();
 const SupportTicket = require('../models/SupportTicket');
+const Product = require('../models/Product');
 
 // POST - Crear nuevo ticket de soporte
 router.post('/submit', async (req, res) => {
   try {
-    const { name, email, product, issueType, message } = req.body;
+    const { name, email, product, issueType, message, customProduct } = req.body;
 
-    // Validar datos requeridos
-    if (!name || !email || !product || !issueType || !message) {
+    // Validar datos requeridos básicos
+    if (!name || !email || !issueType || !message) {
       return res.status(400).json({
         success: false,
-        message: 'Todos los campos son requeridos'
+        message: 'Todos los campos básicos son requeridos'
       });
+    }
+
+    // Validar producto solo si el tipo de problema es hardware
+    if (issueType === 'hardware' && !product) {
+      return res.status(400).json({
+        success: false,
+        message: 'El producto es requerido para problemas de hardware'
+      });
+    }
+
+    let productId = product;
+
+    // Si se seleccionó "other", crear un nuevo producto personalizado
+    if (product === 'other') {
+      if (!customProduct || !customProduct.name || !customProduct.category || 
+          !customProduct.description || !customProduct.manufacturer || !customProduct.supportLevel) {
+        return res.status(400).json({
+          success: false,
+          message: 'Todos los campos del producto personalizado son requeridos'
+        });
+      }
+
+      // Crear el producto personalizado
+      const newProduct = new Product({
+        name: customProduct.name,
+        category: customProduct.category,
+        version: customProduct.version || '',
+        description: customProduct.description,
+        price: customProduct.price || 0,
+        status: 'active',
+        releaseDate: new Date(),
+        manufacturer: customProduct.manufacturer,
+        supportLevel: customProduct.supportLevel
+      });
+
+      const savedProduct = await newProduct.save();
+      productId = savedProduct._id;
     }
 
     // Crear nuevo ticket
     const newTicket = new SupportTicket({
       name,
       email,
-      product,
+      product: productId,
       issueType,
       message
     });

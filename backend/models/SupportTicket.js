@@ -15,12 +15,12 @@ const supportTicketSchema = new mongoose.Schema({
   product: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Product',
-    required: true
+    required: false
   },
   issueType: {
     type: String,
     required: true,
-    enum: ['technical', 'billing', 'account', 'feature', 'other']
+    enum: ['technical', 'billing', 'account', 'feature', 'hardware', 'other']
   },
   message: {
     type: String,
