@@ -425,6 +425,48 @@ button:disabled {
     }
 }
 
+/* Estilos para botón de administrador discreto */
+.admin-access {
+    margin-top: 24px;
+    text-align: center;
+    opacity: 0.6;
+    transition: opacity 0.3s ease;
+}
+
+.admin-access:hover {
+    opacity: 1;
+}
+
+.admin-btn {
+    background: transparent;
+    color: rgba(30, 64, 175, 0.7);
+    border: 1px solid rgba(30, 64, 175, 0.2);
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    text-transform: none;
+    letter-spacing: 0;
+    box-shadow: none;
+    width: auto;
+    font-family: 'Inter', sans-serif;
+}
+
+.admin-btn:hover {
+    background: rgba(30, 64, 175, 0.05);
+    color: #1e40af;
+    border-color: rgba(30, 64, 175, 0.3);
+    transform: none;
+    box-shadow: 0 2px 8px rgba(30, 64, 175, 0.1);
+}
+
+.admin-btn:active {
+    transform: scale(0.98);
+    box-shadow: 0 1px 4px rgba(30, 64, 175, 0.2);
+}
+
 /* Responsive design profesional */
 @media (max-width: 600px) {
     body {
@@ -455,5 +497,167 @@ button:disabled {
     .custom-product-fields {
         padding: 20px;
         margin: 20px 0;
+    }
+}
+
+/* Estilos para modal de autenticación de administrador */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    animation: modalFadeIn 0.3s ease;
+}
+
+@keyframes modalFadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+.modal-content {
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(20px);
+    border-radius: 16px;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 20px 60px rgba(30, 64, 175, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    animation: modalSlideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes modalSlideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-30px) scale(0.9);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.modal-header {
+    padding: 24px 28px 16px;
+    border-bottom: 1px solid rgba(229, 231, 235, 0.5);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header h3 {
+    color: #1e40af;
+    font-size: 20px;
+    font-weight: 600;
+    font-family: 'Playfair Display', serif;
+    margin: 0;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #6b7280;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    line-height: 1;
+}
+
+.modal-close:hover {
+    background: rgba(107, 114, 128, 0.1);
+    color: #374151;
+}
+
+.modal-body {
+    padding: 24px 28px 28px;
+}
+
+.auth-buttons {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.auth-submit-btn {
+    flex: 1;
+    background: linear-gradient(135deg, #3b82f6, #1e40af);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 12px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-family: 'Inter', sans-serif;
+}
+
+.auth-submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+}
+
+.auth-cancel-btn {
+    flex: 1;
+    background: rgba(107, 114, 128, 0.1);
+    color: #374151;
+    border: 1px solid rgba(107, 114, 128, 0.2);
+    border-radius: 10px;
+    padding: 12px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Inter', sans-serif;
+}
+
+.auth-cancel-btn:hover {
+    background: rgba(107, 114, 128, 0.15);
+    transform: translateY(-1px);
+}
+
+.auth-error {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    color: white;
+    padding: 12px 16px;
+    border-radius: 8px;
+    margin-top: 16px;
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+    animation: errorShake 0.5s ease;
+}
+
+@keyframes errorShake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+/* Responsive para modal */
+@media (max-width: 480px) {
+    .modal-content {
+        max-width: 95%;
+        margin: 20px;
+    }
+    
+    .modal-header,
+    .modal-body {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+    
+    .auth-buttons {
+        flex-direction: column;
     }
 }

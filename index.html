@@ -103,6 +103,34 @@
             
             <button type="submit">Enviar mensaje</button>
         </form>
+        
+        <!-- Botón discreto para administrador -->
+        <div class="admin-access">
+            <button type="button" id="adminButton" class="admin-btn">Ingresar Administrador</button>
+        </div>
+    </div>
+
+    <!-- Modal de autenticación de administrador -->
+    <div class="modal-overlay" id="adminAuthModal">
+        <div class="modal-content admin-auth-modal">
+            <div class="modal-header">
+                <h3>Acceso Administrativo</h3>
+                <button class="modal-close" id="adminModalClose">×</button>
+            </div>
+            <div class="modal-body">
+                <form id="adminAuthForm">
+                    <div class="form-group">
+                        <label for="adminPassword">Contraseña de Administrador</label>
+                        <input type="password" id="adminPassword" name="adminPassword" required placeholder="Ingrese la contraseña">
+                    </div>
+                    <div class="auth-buttons">
+                        <button type="submit" class="auth-submit-btn">Ingresar</button>
+                        <button type="button" class="auth-cancel-btn" id="adminAuthCancel">Cancelar</button>
+                    </div>
+                </form>
+                <div class="auth-error" id="authError" style="display: none;"></div>
+            </div>
+        </div>
     </div>
 
     <script src="script.js"></script>

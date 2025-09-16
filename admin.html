@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Administrativo - Soporte</title>
+    <link rel="stylesheet" href="admin-styles.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <header class="dashboard-header">
+            <h1>Dashboard Administrativo</h1>
+            <div class="header-actions">
+                <button id="refreshBtn" class="refresh-btn">
+                    <span class="refresh-icon">⟳</span>
+                    Actualizar
+                </button>
+                <button id="backBtn" class="back-btn">
+                    ← Volver al formulario
+                </button>
+            </div>
+        </header>
+
+        <div class="dashboard-stats">
+            <div class="stat-card">
+                <div class="stat-number" id="totalTickets">0</div>
+                <div class="stat-label">Total de Tickets</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="openTickets">0</div>
+                <div class="stat-label">Tickets Abiertos</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="todayTickets">0</div>
+                <div class="stat-label">Hoy</div>
+            </div>
+        </div>
+
+        <div class="dashboard-content">
+            <div class="tickets-section">
+                <div class="section-header">
+                    <h2>Tickets de Soporte</h2>
+                    <div class="filters">
+                        <select id="statusFilter" class="filter-select">
+                            <option value="">Todos los estados</option>
+                            <option value="open">Abierto</option>
+                            <option value="in_progress">En progreso</option>
+                            <option value="resolved">Resuelto</option>
+                            <option value="closed">Cerrado</option>
+                        </select>
+                        <select id="issueTypeFilter" class="filter-select">
+                            <option value="">Todos los tipos</option>
+                            <option value="technical">Técnico</option>
+                            <option value="billing">Facturación</option>
+                            <option value="account">Cuenta</option>
+                            <option value="feature">Nueva función</option>
+                            <option value="hardware">Hardware</option>
+                            <option value="other">Otro</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="loading-spinner" id="loadingSpinner">
+                    <div class="spinner"></div>
+                    <span>Cargando tickets...</span>
+                </div>
+
+                <div class="tickets-container" id="ticketsContainer">
+                    <!-- Los tickets se cargarán dinámicamente aquí -->
+                </div>
+
+                <div class="no-tickets" id="noTickets" style="display: none;">
+                    <div class="no-tickets-icon">📋</div>
+                    <h3>No hay tickets disponibles</h3>
+                    <p>No se encontraron tickets que coincidan con los filtros seleccionados.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para ver detalles del ticket -->
+    <div class="modal-overlay" id="ticketModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Detalles del Ticket</h3>
+                <button class="modal-close" id="modalClose">×</button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Contenido del ticket se cargará aquí -->
+            </div>
+            <div class="modal-footer">
+                <select id="statusUpdate" class="status-select">
+                    <option value="open">Abierto</option>
+                    <option value="in_progress">En progreso</option>
+                    <option value="resolved">Resuelto</option>
+                    <option value="closed">Cerrado</option>
+                </select>
+                <button id="updateStatusBtn" class="update-btn">Actualizar Estado</button>
+                <button id="modalCancel" class="cancel-btn">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="admin-script.js"></script>
+</body>
+</html>

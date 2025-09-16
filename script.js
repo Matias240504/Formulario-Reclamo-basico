@@ -3,7 +3,123 @@ document.addEventListener('DOMContentLoaded', async function() {
     await loadProducts();
     setupProductChangeHandler();
     setupIssueTypeChangeHandler();
+    setupAdminButton();
 });
+
+// Configurar botón de administrador
+function setupAdminButton() {
+    const adminButton = document.getElementById('adminButton');
+    if (adminButton) {
+        adminButton.addEventListener('click', function() {
+            showAdminAuthModal();
+        });
+    }
+    
+    // Configurar modal de autenticación
+    setupAdminAuthModal();
+}
+
+// Configurar modal de autenticación de administrador
+function setupAdminAuthModal() {
+    const modal = document.getElementById('adminAuthModal');
+    const closeBtn = document.getElementById('adminModalClose');
+    const cancelBtn = document.getElementById('adminAuthCancel');
+    const form = document.getElementById('adminAuthForm');
+    
+    // Cerrar modal
+    closeBtn.addEventListener('click', closeAdminAuthModal);
+    cancelBtn.addEventListener('click', closeAdminAuthModal);
+    
+    // Cerrar al hacer clic fuera del modal
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            closeAdminAuthModal();
+        }
+    });
+    
+    // Manejar envío del formulario
+    form.addEventListener('submit', handleAdminAuth);
+}
+
+// Mostrar modal de autenticación
+function showAdminAuthModal() {
+    const modal = document.getElementById('adminAuthModal');
+    const passwordInput = document.getElementById('adminPassword');
+    const errorDiv = document.getElementById('authError');
+    
+    // Limpiar formulario
+    passwordInput.value = '';
+    errorDiv.style.display = 'none';
+    
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+    
+    // Enfocar el input de contraseña
+    setTimeout(() => {
+        passwordInput.focus();
+    }, 100);
+}
+
+// Cerrar modal de autenticación
+function closeAdminAuthModal() {
+    const modal = document.getElementById('adminAuthModal');
+    modal.style.display = 'none';
+    document.body.style.overflow = 'auto';
+}
+
+// Manejar autenticación de administrador
+async function handleAdminAuth(e) {
+    e.preventDefault();
+    
+    const password = document.getElementById('adminPassword').value;
+    const submitBtn = e.target.querySelector('.auth-submit-btn');
+    const errorDiv = document.getElementById('authError');
+    const originalText = submitBtn.textContent;
+    
+    // Deshabilitar botón y mostrar loading
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Verificando...';
+    errorDiv.style.display = 'none';
+    
+    try {
+        const response = await fetch('/api/support/admin/verify', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ password })
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            // Autenticación exitosa
+            closeAdminAuthModal();
+            window.location.href = 'admin.html';
+        } else {
+            // Mostrar error
+            showAuthError(result.message);
+        }
+    } catch (error) {
+        console.error('Error de autenticación:', error);
+        showAuthError('Error de conexión. Inténtalo de nuevo.');
+    } finally {
+        // Rehabilitar botón
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalText;
+    }
+}
+
+// Mostrar error de autenticación
+function showAuthError(message) {
+    const errorDiv = document.getElementById('authError');
+    errorDiv.textContent = message;
+    errorDiv.style.display = 'block';
+    
+    // Limpiar contraseña
+    document.getElementById('adminPassword').value = '';
+    document.getElementById('adminPassword').focus();
+}
 
 // Función para cargar productos desde la API
 async function loadProducts() {
