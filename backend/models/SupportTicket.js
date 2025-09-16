@@ -12,6 +12,11 @@ const supportTicketSchema = new mongoose.Schema({
     trim: true,
     lowercase: true
   },
+  product: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Product',
+    required: true
+  },
   issueType: {
     type: String,
     required: true,

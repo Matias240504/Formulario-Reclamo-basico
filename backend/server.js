@@ -6,6 +6,7 @@ require('dotenv').config();
 
 const connectDB = require('./config/database');
 const supportRoutes = require('./routes/supportRoutes');
+const productRoutes = require('./routes/productRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -23,6 +24,7 @@ app.use(express.static(path.join(__dirname, '../')));
 
 // Rutas de la API
 app.use('/api/support', supportRoutes);
+app.use('/api/products', productRoutes);
 
 // Ruta principal para servir el frontend
 app.get('/', (req, res) => {

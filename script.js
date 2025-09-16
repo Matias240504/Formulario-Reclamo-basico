@@ -1,3 +1,49 @@
+// Cargar productos al cargar la página
+document.addEventListener('DOMContentLoaded', async function() {
+    await loadProducts();
+});
+
+// Función para cargar productos desde la API
+async function loadProducts() {
+    try {
+        const response = await fetch('/api/products');
+        const result = await response.json();
+        
+        if (result.success) {
+            const productSelect = document.getElementById('product');
+            
+            // Limpiar opciones existentes (excepto la primera)
+            productSelect.innerHTML = '<option value="">Seleccione un producto</option>';
+            
+            // Agrupar productos por categoría
+            const productsByCategory = {};
+            result.data.forEach(product => {
+                if (!productsByCategory[product.category]) {
+                    productsByCategory[product.category] = [];
+                }
+                productsByCategory[product.category].push(product);
+            });
+            
+            // Crear optgroups por categoría
+            Object.keys(productsByCategory).sort().forEach(category => {
+                const optgroup = document.createElement('optgroup');
+                optgroup.label = category;
+                
+                productsByCategory[category].forEach(product => {
+                    const option = document.createElement('option');
+                    option.value = product._id;
+                    option.textContent = `${product.name} ${product.version ? '(' + product.version + ')' : ''} - $${product.price}`;
+                    optgroup.appendChild(option);
+                });
+                
+                productSelect.appendChild(optgroup);
+            });
+        }
+    } catch (error) {
+        console.error('Error cargando productos:', error);
+    }
+}
+
 document.getElementById('supportForm').addEventListener('submit', async function(e) {
     e.preventDefault();
     
@@ -5,6 +51,7 @@ document.getElementById('supportForm').addEventListener('submit', async function
     const formData = {
         name: document.getElementById('name').value,
         email: document.getElementById('email').value,
+        product: document.getElementById('product').value,
         issueType: document.getElementById('issueType').value,
         message: document.getElementById('message').value
     };

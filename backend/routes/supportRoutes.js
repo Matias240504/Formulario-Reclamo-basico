@@ -5,10 +5,10 @@ const SupportTicket = require('../models/SupportTicket');
 // POST - Crear nuevo ticket de soporte
 router.post('/submit', async (req, res) => {
   try {
-    const { name, email, issueType, message } = req.body;
+    const { name, email, product, issueType, message } = req.body;
 
     // Validar datos requeridos
-    if (!name || !email || !issueType || !message) {
+    if (!name || !email || !product || !issueType || !message) {
       return res.status(400).json({
         success: false,
         message: 'Todos los campos son requeridos'
@@ -19,6 +19,7 @@ router.post('/submit', async (req, res) => {
     const newTicket = new SupportTicket({
       name,
       email,
+      product,
       issueType,
       message
     });
@@ -50,7 +51,9 @@ router.post('/submit', async (req, res) => {
 // GET - Obtener todos los tickets
 router.get('/tickets', async (req, res) => {
   try {
-    const tickets = await SupportTicket.find().sort({ createdAt: -1 });
+    const tickets = await SupportTicket.find()
+      .populate('product', 'name category version manufacturer')
+      .sort({ createdAt: -1 });
     
     res.json({
       success: true,
