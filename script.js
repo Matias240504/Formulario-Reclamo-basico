@@ -182,17 +182,88 @@ document.getElementById('supportForm').addEventListener('submit', async function
         const result = await response.json();
         
         if (result.success) {
-            alert('¡Gracias por contactarnos! Hemos recibido tu mensaje y nos pondremos en contacto contigo pronto.');
+            showSuccessMessage('¡Gracias por contactarnos! Hemos recibido tu mensaje y nos pondremos en contacto contigo pronto.');
             this.reset();
+            // Reiniciar animaciones de los form-groups
+            setTimeout(() => {
+                const formGroups = document.querySelectorAll('.form-group');
+                formGroups.forEach((group, index) => {
+                    group.style.animation = 'none';
+                    group.offsetHeight; // Trigger reflow
+                    group.style.animation = `formGroupSlideIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) both`;
+                    group.style.animationDelay = `${(index + 1) * 0.1}s`;
+                });
+            }, 100);
         } else {
-            alert('Error: ' + result.message);
+            showErrorMessage('Error: ' + result.message);
         }
     } catch (error) {
         console.error('Error enviando formulario:', error);
-        alert('Error al enviar el formulario. Por favor, inténtalo de nuevo.');
+        showErrorMessage('Error al enviar el formulario. Por favor, inténtalo de nuevo.');
     } finally {
         // Rehabilitar el botón
         submitButton.disabled = false;
         submitButton.textContent = originalText;
     }
 });
+
+// Funciones para mostrar mensajes de éxito y error con animaciones
+function showSuccessMessage(message) {
+    // Remover mensajes existentes
+    removeExistingMessages();
+    
+    const messageDiv = document.createElement('div');
+    messageDiv.className = 'success-message';
+    messageDiv.textContent = message;
+    
+    const form = document.getElementById('supportForm');
+    form.appendChild(messageDiv);
+    
+    // Auto-remover después de 5 segundos
+    setTimeout(() => {
+        if (messageDiv.parentNode) {
+            messageDiv.style.animation = 'fadeOut 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards';
+            setTimeout(() => {
+                if (messageDiv.parentNode) {
+                    messageDiv.remove();
+                }
+            }, 400);
+        }
+    }, 5000);
+}
+
+function showErrorMessage(message) {
+    // Remover mensajes existentes
+    removeExistingMessages();
+    
+    const messageDiv = document.createElement('div');
+    messageDiv.className = 'error-message';
+    messageDiv.textContent = message;
+    
+    const form = document.getElementById('supportForm');
+    form.appendChild(messageDiv);
+    
+    // Auto-remover después de 6 segundos
+    setTimeout(() => {
+        if (messageDiv.parentNode) {
+            messageDiv.style.animation = 'fadeOut 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards';
+            setTimeout(() => {
+                if (messageDiv.parentNode) {
+                    messageDiv.remove();
+                }
+            }, 400);
+        }
+    }, 6000);
+}
+
+function removeExistingMessages() {
+    const existingMessages = document.querySelectorAll('.success-message, .error-message');
+    existingMessages.forEach(msg => {
+        msg.style.animation = 'fadeOut 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards';
+        setTimeout(() => {
+            if (msg.parentNode) {
+                msg.remove();
+            }
+        }, 300);
+    });
+}

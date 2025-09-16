@@ -1,55 +1,189 @@
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f5f7fa;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
+/* Importar fuentes corporativas profesionales */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap');
+
+* {
     margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 25%, #3b82f6 50%, #60a5fa 75%, #93c5fd 100%);
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     padding: 20px;
+    color: #1e293b;
+    font-weight: 400;
+    line-height: 1.6;
+    letter-spacing: -0.01em;
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes subtleBackgroundShift {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
 }
 
 .card {
-    background-color: white;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    padding: 30px;
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    box-shadow: 
+        0 25px 50px -12px rgba(0, 0, 0, 0.25),
+        0 0 0 1px rgba(255, 255, 255, 0.1);
+    padding: 48px;
     width: 100%;
-    max-width: 500px;
+    max-width: 540px;
+    animation: cardFadeIn 1s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #1e40af, #3b82f6, #60a5fa);
+    animation: progressBar 3s ease-in-out infinite;
+}
+
+@keyframes cardFadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes progressBar {
+    0%, 100% { transform: translateX(-100%); }
+    50% { transform: translateX(100%); }
 }
 
 h2 {
-    color: #333;
-    margin-top: 0;
-    margin-bottom: 24px;
-    font-weight: 600;
+    font-family: 'Playfair Display', serif;
     text-align: center;
+    margin-bottom: 40px;
+    color: #1e40af;
+    font-size: 32px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    position: relative;
+    line-height: 1.2;
+    text-shadow: 0 2px 4px rgba(30, 64, 175, 0.1);
+    animation: titleSlideIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes titleSlideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .form-group {
-    margin-bottom: 20px;
+    margin-bottom: 24px;
+    animation: formGroupSlideIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+    opacity: 0;
+}
+
+.form-group:nth-child(1) { animation-delay: 0.4s; }
+.form-group:nth-child(2) { animation-delay: 0.5s; }
+.form-group:nth-child(3) { animation-delay: 0.6s; }
+.form-group:nth-child(4) { animation-delay: 0.7s; }
+.form-group:nth-child(5) { animation-delay: 0.8s; }
+
+@keyframes formGroupSlideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 label {
     display: block;
-    margin-bottom: 8px;
-    font-weight: 500;
-    color: #444;
+    margin-bottom: 10px;
+    color: #1e40af;
+    font-weight: 600;
+    font-size: 13px;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-family: 'Inter', sans-serif;
+    position: relative;
+}
+
+label::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, #3b82f6, #1e40af);
+    transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.form-group:hover label::after,
+.form-group:focus-within label::after {
+    width: 24px;
 }
 
 input, select, textarea {
     width: 100%;
-    padding: 12px;
-    border: 2px solid #e1e5e9;
-    border-radius: 8px;
-    font-size: 16px;
-    transition: border-color 0.3s ease;
-    box-sizing: border-box;
+    padding: 18px 22px;
+    border: 2px solid rgba(59, 130, 246, 0.15);
+    border-radius: 14px;
+    font-size: 15px;
+    font-weight: 400;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(12px);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    color: #1e293b;
+    font-family: 'Inter', sans-serif;
+    line-height: 1.5;
+    letter-spacing: -0.005em;
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.08);
 }
 
 input:focus, select:focus, textarea:focus {
     outline: none;
-    border-color: #4f46e5;
+    border-color: #3b82f6;
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 
+        0 0 0 3px rgba(59, 130, 246, 0.1),
+        0 4px 12px rgba(0, 0, 0, 0.05);
+    transform: translateY(-1px);
+}
+
+input:hover, select:hover, textarea:hover {
+    border-color: #d1d5db;
+    background: rgba(255, 255, 255, 0.9);
 }
 
 textarea {
@@ -58,20 +192,69 @@ textarea {
 }
 
 button {
-    background-color: #4f46e5;
+    background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
     color: white;
     border: none;
-    border-radius: 8px;
-    padding: 14px 20px;
-    font-size: 16px;
+    border-radius: 14px;
+    padding: 20px 28px;
+    font-size: 15px;
     font-weight: 600;
     cursor: pointer;
     width: 100%;
-    transition: background-color 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    letter-spacing: 0.08em;
+    font-family: 'Inter', sans-serif;
+    text-transform: uppercase;
+    box-shadow: 
+        0 4px 14px rgba(30, 64, 175, 0.4),
+        0 0 0 1px rgba(59, 130, 246, 0.1);
+}
+
+button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.6s ease;
 }
 
 button:hover {
-    background-color: #4338ca;
+    background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 
+        0 8px 25px rgba(30, 64, 175, 0.5),
+        0 0 0 1px rgba(59, 130, 246, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+button:active {
+    transform: translateY(-1px) scale(1.01);
+    box-shadow: 
+        0 4px 12px rgba(30, 64, 175, 0.4),
+        0 0 0 1px rgba(59, 130, 246, 0.2);
+}
+
+button:hover::before {
+    left: 100%;
+}
+
+button:active {
+    transform: translateY(0);
+    box-shadow: 
+        0 2px 8px rgba(30, 64, 175, 0.3),
+        0 0 0 1px rgba(59, 130, 246, 0.1);
+}
+
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: 0 2px 8px rgba(30, 64, 175, 0.2);
 }
 
 .required {
@@ -80,30 +263,197 @@ button:hover {
 
 /* Estilos para campos de producto personalizado */
 .custom-product-fields {
-    background-color: #f8f9fa;
-    border: 2px dashed #dee2e6;
-    border-radius: 8px;
-    padding: 20px;
-    margin: 15px 0;
-    transition: all 0.3s ease;
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.03), rgba(30, 64, 175, 0.05));
+    border: 2px solid rgba(59, 130, 246, 0.15);
+    border-radius: 16px;
+    padding: 28px;
+    margin: 24px 0;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    animation: customFieldsExpand 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.custom-product-fields::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    right: -1px;
+    bottom: -1px;
+    background: linear-gradient(135deg, #3b82f6, #1e40af);
+    border-radius: 16px;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.custom-product-fields:hover::before {
+    opacity: 0.1;
+}
+
+@keyframes customFieldsExpand {
+    0% {
+        opacity: 0;
+        transform: scale(0.95) translateY(-10px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
 }
 
 .custom-product-fields .form-group {
-    margin-bottom: 15px;
+    margin-bottom: 20px;
+    animation: none;
+    opacity: 1;
+    transform: none;
 }
 
 .custom-product-fields label {
-    font-size: 14px;
-    color: #495057;
+    font-size: 13px;
+    color: #1e40af;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
 }
 
 .custom-product-fields input,
 .custom-product-fields select,
 .custom-product-fields textarea {
-    background-color: white;
-    border: 1px solid #ced4da;
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    backdrop-filter: blur(10px);
 }
 
 .custom-product-fields textarea {
-    min-height: 80px;
+    min-height: 90px;
+}
+
+/* Animaciones para secciones dinámicas */
+#productSection {
+    animation: sectionSlideDown 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    transform-origin: top;
+}
+
+@keyframes sectionSlideDown {
+    0% {
+        opacity: 0;
+        transform: translateY(-15px) scaleY(0.9);
+        max-height: 0;
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scaleY(1);
+        max-height: 1000px;
+    }
+}
+
+/* Loading spinner profesional */
+.loading-spinner {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: professionalSpin 1s linear infinite;
+    margin-right: 8px;
+}
+
+@keyframes professionalSpin {
+    to { transform: rotate(360deg); }
+}
+
+/* Efectos hover profesionales */
+.form-group:hover label {
+    color: #1e40af;
+    transform: translateX(2px);
+}
+
+/* Mensajes de estado profesionales */
+.success-message {
+    background: linear-gradient(135deg, #059669, #047857);
+    color: white;
+    padding: 16px 24px;
+    border-radius: 12px;
+    margin: 24px 0;
+    text-align: center;
+    font-weight: 600;
+    animation: messageSlideIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 4px 14px rgba(5, 150, 105, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.error-message {
+    background: linear-gradient(135deg, #dc2626, #b91c1c);
+    color: white;
+    padding: 16px 24px;
+    border-radius: 12px;
+    margin: 24px 0;
+    text-align: center;
+    font-weight: 600;
+    animation: messageShake 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 4px 14px rgba(220, 38, 38, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+@keyframes messageSlideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(-15px) scale(0.95);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes messageShake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-3px); }
+    20%, 40%, 60%, 80% { transform: translateX(3px); }
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-8px) scale(0.98);
+    }
+}
+
+/* Responsive design profesional */
+@media (max-width: 600px) {
+    body {
+        padding: 16px;
+    }
+    
+    .card {
+        padding: 32px 24px;
+        border-radius: 12px;
+        max-width: 100%;
+    }
+    
+    h2 {
+        font-size: 24px;
+        margin-bottom: 28px;
+    }
+    
+    input, select, textarea {
+        padding: 14px 16px;
+        font-size: 16px;
+    }
+    
+    button {
+        padding: 16px 20px;
+        font-size: 15px;
+    }
+    
+    .custom-product-fields {
+        padding: 20px;
+        margin: 20px 0;
+    }
 }
