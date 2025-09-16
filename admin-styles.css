@@ -388,6 +388,108 @@ body {
     margin-bottom: 16px;
 }
 
+/* Email Modal Styles */
+.email-btn {
+    background: #059669;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.email-btn:hover {
+    background: #047857;
+    transform: translateY(-1px);
+}
+
+.send-btn {
+    background: #dc2626;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.send-btn:hover {
+    background: #b91c1c;
+    transform: translateY(-1px);
+}
+
+.email-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    font-weight: 600;
+    color: #374151;
+    font-size: 14px;
+}
+
+.email-input {
+    padding: 12px;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: border-color 0.2s;
+}
+
+.email-input:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.email-textarea {
+    padding: 12px;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: inherit;
+    resize: vertical;
+    min-height: 120px;
+    transition: border-color 0.2s;
+}
+
+.email-textarea:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.recipient-info {
+    background: #f3f4f6;
+    padding: 16px;
+    border-radius: 8px;
+    border-left: 4px solid #3b82f6;
+}
+
+.recipient-info h4 {
+    margin: 0 0 8px 0;
+    color: #1f2937;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.recipient-info p {
+    margin: 4px 0;
+    color: #6b7280;
+    font-size: 13px;
+}
+
 .no-tickets h3 {
     color: #374151;
     margin-bottom: 8px;

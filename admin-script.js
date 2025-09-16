@@ -1,6 +1,7 @@
 // Variables globales
 let currentTickets = [];
 let currentFilters = {};
+let currentTicket = null;
 
 // Cargar dashboard al cargar la página
 document.addEventListener('DOMContentLoaded', function() {
@@ -22,15 +23,27 @@ function setupEventListeners() {
     document.getElementById('statusFilter').addEventListener('change', applyFilters);
     document.getElementById('issueTypeFilter').addEventListener('change', applyFilters);
     
-    // Modal
+    // Modal principal
     document.getElementById('modalClose').addEventListener('click', closeModal);
     document.getElementById('modalCancel').addEventListener('click', closeModal);
     document.getElementById('updateStatusBtn').addEventListener('click', updateTicketStatus);
+    document.getElementById('sendEmailBtn').addEventListener('click', openEmailModal);
     
-    // Cerrar modal al hacer clic fuera
+    // Modal de email
+    document.getElementById('emailModalClose').addEventListener('click', closeEmailModal);
+    document.getElementById('emailModalCancel').addEventListener('click', closeEmailModal);
+    document.getElementById('sendEmailConfirmBtn').addEventListener('click', sendEmail);
+    
+    // Cerrar modales al hacer clic fuera
     document.getElementById('ticketModal').addEventListener('click', function(e) {
         if (e.target === this) {
             closeModal();
+        }
+    });
+    
+    document.getElementById('emailModal').addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeEmailModal();
         }
     });
 }
@@ -137,6 +150,9 @@ function showTicketModal(ticket) {
     const modalBody = document.getElementById('modalBody');
     const statusSelect = document.getElementById('statusUpdate');
     
+    // Guardar ticket actual para uso en email
+    currentTicket = ticket;
+    
     document.getElementById('modalTitle').textContent = `Ticket #${ticket._id.slice(-8)}`;
     
     modalBody.innerHTML = `
@@ -209,6 +225,79 @@ async function updateTicketStatus() {
     } catch (error) {
         console.error('Error actualizando estado:', error);
         showError('Error de conexión al actualizar estado');
+    }
+}
+
+// Abrir modal de email
+function openEmailModal() {
+    if (!currentTicket) {
+        showError('No hay ticket seleccionado');
+        return;
+    }
+    
+    const emailModal = document.getElementById('emailModal');
+    const recipientInfo = document.getElementById('recipientInfo');
+    
+    // Limpiar campos
+    document.getElementById('emailSubject').value = '';
+    document.getElementById('emailMessage').value = '';
+    
+    // Mostrar información del destinatario
+    recipientInfo.innerHTML = `
+        <h4>Destinatario:</h4>
+        <p><strong>Nombre:</strong> ${escapeHtml(currentTicket.name)}</p>
+        <p><strong>Email:</strong> ${escapeHtml(currentTicket.email)}</p>
+        <p><strong>Ticket:</strong> #${currentTicket._id.slice(-8)}</p>
+        <p><strong>Estado:</strong> ${getStatusLabel(currentTicket.status)}</p>
+    `;
+    
+    emailModal.style.display = 'flex';
+}
+
+// Cerrar modal de email
+function closeEmailModal() {
+    const emailModal = document.getElementById('emailModal');
+    emailModal.style.display = 'none';
+}
+
+// Enviar email
+async function sendEmail() {
+    const subject = document.getElementById('emailSubject').value.trim();
+    const message = document.getElementById('emailMessage').value.trim();
+    
+    if (!subject || !message) {
+        showError('Por favor complete todos los campos');
+        return;
+    }
+    
+    if (!currentTicket) {
+        showError('No hay ticket seleccionado');
+        return;
+    }
+    
+    try {
+        const response = await fetch(`/api/support/tickets/${currentTicket._id}/send-email`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                subject: subject,
+                message: message
+            })
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            showSuccess('Email enviado correctamente');
+            closeEmailModal();
+        } else {
+            showError('Error enviando email: ' + result.message);
+        }
+    } catch (error) {
+        console.error('Error enviando email:', error);
+        showError('Error de conexión al enviar email');
     }
 }
 

@@ -8,16 +8,22 @@
     "dev": "nodemon server.js"
   },
   "dependencies": {
-    "express": "^4.18.2",
-    "mongoose": "^7.5.0",
+    "body-parser": "^1.20.2",
     "cors": "^2.8.5",
     "dotenv": "^16.3.1",
-    "body-parser": "^1.20.2"
+    "express": "^4.18.2",
+    "mongoose": "^7.5.0",
+    "nodemailer": "^7.0.6"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"
   },
-  "keywords": ["express", "mongodb", "support", "form"],
+  "keywords": [
+    "express",
+    "mongodb",
+    "support",
+    "form"
+  ],
   "author": "",
   "license": "ISC"
 }

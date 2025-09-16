@@ -96,7 +96,37 @@
                     <option value="closed">Cerrado</option>
                 </select>
                 <button id="updateStatusBtn" class="update-btn">Actualizar Estado</button>
+                <button id="sendEmailBtn" class="email-btn">Enviar Email</button>
                 <button id="modalCancel" class="cancel-btn">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para enviar email -->
+    <div class="modal-overlay" id="emailModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="emailModalTitle">Enviar Email al Usuario</h3>
+                <button class="modal-close" id="emailModalClose">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="email-form">
+                    <div class="form-group">
+                        <label for="emailSubject">Asunto:</label>
+                        <input type="text" id="emailSubject" class="email-input" placeholder="Ingrese el asunto del email">
+                    </div>
+                    <div class="form-group">
+                        <label for="emailMessage">Mensaje:</label>
+                        <textarea id="emailMessage" class="email-textarea" rows="6" placeholder="Escriba su mensaje aquí..."></textarea>
+                    </div>
+                    <div class="recipient-info" id="recipientInfo">
+                        <!-- Información del destinatario se mostrará aquí -->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="sendEmailConfirmBtn" class="send-btn">Enviar Email</button>
+                <button id="emailModalCancel" class="cancel-btn">Cancelar</button>
             </div>
         </div>
     </div>
